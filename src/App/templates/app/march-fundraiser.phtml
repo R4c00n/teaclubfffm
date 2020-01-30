@@ -1,0 +1,160 @@
+<?php $this->headTitle('01.03.2020 | Global Tea Hut Day'); ?>
+<?php
+/**
+ * @var \Zend\I18n\Translator\TranslatorInterface $translator
+ */
+/** @var \Zend\Form\Form $form */
+/** @var bool $success */
+
+$form->prepare();
+
+$form->setAttribute('action', $this->url('gthday'));
+$form->setAttribute('method', 'post');
+
+/** @var \Zend\Form\View\Helper\FormLabel $formLabel */
+$formLabel = $this->plugin('formLabel');
+?>
+
+<section class="section section--full" id="intro">
+    <div class="side-content">
+        <nav class="navigation">
+            <ul>
+                <li><a href="#events"><?= $translator->translate('gthday.events.headline') ?></a></li>
+                <li><a href="#participate"><?= $translator->translate('participate') ?></a></li>
+                <li><a href="#location"><?= $translator->translate('location') ?></a></li>
+            </ul>
+        </nav>
+        <div class="title-banner-container">
+            <div class="title-banner"><span>Global Tea Hut Day</span></div>
+            <div class="title-banner"><span>01.03.2020</span></div>
+            <div class="title-banner"><span><?= $translator->translate('gthday.banner.city') ?></span></div>
+            <div class="title-banner">
+                <span><a href="https://www.teatastic.eu/" target="_blank">@Teatastic</a></span>
+            </div>
+        </div>
+
+        <div class="intro">
+            <h2><span><?= $translator->translate('gthday.about.headline') ?></span></h2>
+            <p><?= $translator->translate('gthday.about') ?></p>
+        </div>
+    </div>
+</section>
+<section class="section" id="events">
+    <div class="container">
+        <div class="align-center">
+            <h2><span><?= $translator->translate('gthday.events.headline') ?></span></h2>
+            <p><?= $translator->translate('gthday.events') ?></p>
+        </div>
+
+        <div class="events">
+            <div class="event">
+                <div class="event__thumb">
+                    <img src="/img/sidehandle.jpg" alt="Bowl Tea">
+                </div>
+                <h3><?= $translator->translate('gthday.events.bowltea.headline') ?></h3>
+                <p><?= $translator->translate('gthday.events.bowltea') ?></p>
+                <div class="event__time"><span><?= $translator->translate('time') ?>:</span> 01.03.2020 10:00 Uhr</div>
+                <div class="event__price"><span><?= $translator->translate('baseprice') ?>:</span> 15€</div>
+                <a href="#participate" class="participate-button button button--small"><?= $translator->translate('participate') ?> &gt;</a>
+            </div>
+            <div class="event">
+                <div class="event__thumb">
+                    <img src="/img/gongfucha.jpg" alt="Gong Fu Cha">
+                </div>
+                <h3><?= $translator->translate('gthday.events.gongfu.headline') ?></h3>
+                <p><?= $translator->translate('gthday.events.gongfu') ?></p>
+                <div class="event__time"><span><?= $translator->translate('time') ?>:</span> 01.03.2020 15:00 Uhr</div>
+                <div class="event__price"><span><?= $translator->translate('baseprice') ?>:</span> 15€</div>
+                <a href="#participate" class="participate-button button button--small"><?= $translator->translate('participate') ?> &gt;</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section" id="participate">
+    <div class="container">
+        <div class="register-form">
+            <h2><span>Für ein Event anmelden</span></h2>
+
+            <?php if (isset($success) && $success): ?>
+                <div class="register-status register-status--success">
+                    <h3><?= $translator->translate('Du hast dich erfolgreich angemeldet') ?></h3>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!isset($success)): ?>
+                <p class="align-center"><?= $translator->translate('gthday.events.register.info') ?></p>
+
+                <?= $this->form()->openTag($form) ?>
+                <div class="form_element">
+                    <?php $event = $form->get('event') ?>
+                    <?= $formLabel->openTag(['for' => 'event']) ?>
+                    <?= $translator->translate($event->getOption('label')) ?>
+                    <?= $formLabel->closeTag() ?>
+                    <?= $this->formSelect($event) ?>
+                    <?= $this->formElementErrors($event) ?>
+                </div>
+                <div class="form_element">
+                    <?php $firstName = $form->get('firstName') ?>
+                    <?= $formLabel->openTag(['for' => 'firstName']) ?>
+                    <?= $translator->translate($firstName->getOption('label')) ?>
+                    <?= $formLabel->closeTag() ?>
+                    <?= $this->formInput($firstName) ?>
+                    <?= $this->formElementErrors($firstName, ['class' => 'error-messages']) ?>
+                </div>
+                <div class="form_element">
+                    <?php $lastName = $form->get('lastName') ?>
+                    <?= $formLabel->openTag(['for' => 'lastName']) ?>
+                    <?= $translator->translate($lastName->getOption('label')) ?>
+                    <?= $formLabel->closeTag() ?>
+                    <?= $this->formInput($lastName) ?>
+                    <?= $this->formElementErrors($lastName, ['class' => 'error-messages']) ?>
+                </div>
+                <div class="form_element">
+                    <?php $email = $form->get('email') ?>
+                    <?= $formLabel->openTag(['for' => 'email']) ?>
+                    <?= $translator->translate($email->getOption('label')) ?>
+                    <?= $formLabel->closeTag() ?>
+                    <?= $this->formInput($email) ?>
+                    <?= $this->formElementErrors($email, ['class' => 'error-messages']) ?>
+                </div>
+                <div class="form_element">
+                    <?php $captcha = $form->get('captcha') ?>
+                    <?= $formLabel->openTag(['for' => 'captcha']) ?>
+                    <?= $translator->translate($captcha->getOption('label')) ?>:
+                    <?= $formLabel->closeTag() ?>
+                    <?= $this->formElement($captcha, ['class' => 'error-messages']) ?>
+                </div>
+
+                <?= $this->formElement($form->get('security')) ?>
+
+                <div class="form_element form_element--submit">
+                    <?= $this->formElement($form->get('send')) ?>
+                </div>
+                <?= $this->form()->closeTag($form) ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+<section id="location">
+    <div class="container">
+        <h2><span>Veranstaltungsort</span></h2>
+        <p>
+            Beide Veranstaltungen werden im Teastic in Frankfurt am Main, Höhenstraße 15, Ecke Berger Straße statt.<br>
+            Da die Parkplatzsituation im Umkreis leider sehr bescheiden ist, empfehlen wir Dir mit dem Fahrrad oder den öffentlichen Verkehrsmitteln zu uns zu kommen:
+            <br><br>
+            U-bahn Linie 4, Station Höhenstraße<br>
+            Bus Linie 32, Haltestelle Höhenstraße
+        </p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <a href="<?= $this->url('imprint') ?>" target="_blank"><?= $translator->translate('imprint') ?></a>
+    </div>
+</section>
+
+<script>
+    if (document.querySelector('.input-error') !== null || document.querySelector('.register-status') !== null) {
+        window.location.hash = 'participate';
+    }
+</script>
